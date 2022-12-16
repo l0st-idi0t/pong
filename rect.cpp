@@ -1,14 +1,14 @@
 #include "rect.hpp"
 
-Rect::Rect(int x, int y, int w, int h, SDL_Renderer *renderer) {
-    rect.x = x;
-    rect.y = y;
-    rect.w = w;
-    rect.h = h;
-    this->renderer = renderer;
+Rect::Rect(int x, int y, int w, int h) {
+    this->x = x;
+    this->y = y;
+    this->w = w;
+    this->h = h;
 }
 
-void Rect::drawRect() {
+void Rect::drawRect(SDL_Renderer *renderer) {
+    SDL_Rect rect = {this->x, this->y, this->w, this->h};
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &rect);
 }

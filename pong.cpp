@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <iostream>
+#include "rect.hpp"
 
 void logSDLError(std::ostream &os, const std::string &msg) {
     os << msg << " error: " << SDL_GetError() << std::endl;
@@ -29,6 +30,11 @@ int main(int argc, char *argv[]) {
 
     SDL_SetWindowTitle(window, "Pong");
 
+    Rect square = Rect(100, 100, 100, 100);
+
+    square.drawRect(renderer);
+
+    SDL_RenderPresent(renderer);
     SDL_Delay(3000);
 
     cleanup(window, renderer);

@@ -5,8 +5,8 @@
 class Rect {
     public:
         Rect(int x, int y, int w, int h);
-        SDL_Rect rect;
+        int x, y, w, h;
 
-        void drawRect();
+        void drawRect(SDL_Renderer *renderer);
 
 };
