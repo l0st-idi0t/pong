@@ -1,15 +1,33 @@
 #include "rect.hpp"
+#include <iostream>
 
 Rect::Rect(int x, int y, int w, int h) {
-    this->x = x;
-    this->y = y;
-    this->w = w;
-    this->h = h;
+    this->rect = {x, y, w, h};
 }
 
 void Rect::drawRect(SDL_Renderer *renderer) {
-    SDL_Rect rect = {this->x, this->y, this->w, this->h};
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderFillRect(renderer, &this->rect);
 }
+
+void Rect::setY(int y) {
+    this->rect.y = y;
+}
+
+void Rect::setX(int x) {
+    this->rect.x = x;
+}
+
+int Rect::getY() {
+    return this->rect.y;
+}
+
+int Rect::getX() {
+    return this->rect.x;
+}
+
+
 
