@@ -5,7 +5,7 @@
 
 //global variables
 bool running = true;
-int playerSpeedY = 15;
+int playerSpeedY = 20;
 int WIDTH = 640;
 int HEIGHT = 480;
 int paddleWidth = 10;
@@ -63,9 +63,16 @@ void render(std::vector<Rect> rects, SDL_Renderer *renderer) {
     SDL_RenderPresent(renderer);
 }
 
-void ballMove(Rect &ball) {
-    if (ball.getX() > WIDTH - 10 || ball.getX() < 0) {
+void ballMove(Rect &ball, Rect &paddle) {
+    SDL_Rect ballRect = ball.getRect();
+    SDL_Rect paddleRect = paddle.getRect();
+
+    if (SDL_HasIntersection(&ballRect, &paddleRect)) {
         ballSpeedX *= -1;
+    }
+
+    if (ball.getX() > WIDTH || ball.getX() < 0) {
+        running = false;
     }
     ball.setX(ball.getX() + ballSpeedX);
 
@@ -73,6 +80,16 @@ void ballMove(Rect &ball) {
         ballSpeedY *= -1;
     }
     ball.setY(ball.getY() + ballSpeedY);
+}
+
+void AI(Rect &paddle, Rect ball) {
+    if (paddle.getY() + paddleHeight/2 < ball.getY() + 5) {
+        paddle.setY(paddle.getY() + playerSpeedY/2);
+    }
+
+    if (paddle.getY() + paddleHeight/2 > ball.getY() + 5) {
+        paddle.setY(paddle.getY() - playerSpeedY/2);
+    }
 }
 
 
@@ -98,10 +115,15 @@ int main(int argc, char *argv[]) {
     Rect ball(WIDTH/2, HEIGHT/2, 10, 10);
 
     while (running) {
+        SDL_Delay(2);
         input(l_paddle);
-        ballMove(ball);
+        ballMove(ball, l_paddle);
+        ballMove(ball, r_paddle);
+        AI(r_paddle, ball);
         render({l_paddle, r_paddle, ball}, renderer);
     }
+
+    SDL_Delay(3000);
 
     cleanup(window, renderer);
 

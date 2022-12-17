@@ -7,6 +7,7 @@ class Rect {
         Rect(int x, int y, int w, int h);
 
         void drawRect(SDL_Renderer *renderer);
+        SDL_Rect getRect();
 
         void setY(int y);
         void setX(int x);

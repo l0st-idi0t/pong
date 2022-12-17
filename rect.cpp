@@ -9,6 +9,10 @@ void Rect::drawRect(SDL_Renderer *renderer) {
     SDL_RenderFillRect(renderer, &this->rect);
 }
 
+SDL_Rect Rect::getRect() {
+    return this->rect;
+}
+
 void Rect::setY(int y) {
     this->rect.y = y;
 }
