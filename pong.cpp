@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
     Rect ball(WIDTH/2, HEIGHT/2, 10, 10);
 
     while (running) {
-        SDL_Delay(2);
+        SDL_Delay(5);
         input(l_paddle);
         ballMove(ball, l_paddle);
         ballMove(ball, r_paddle);
