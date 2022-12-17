@@ -5,7 +5,7 @@
 
 //global variables
 bool running = true;
-int playerSpeedY = 20;
+int paddleSpeedY = 10;
 int WIDTH = 640;
 int HEIGHT = 480;
 int paddleWidth = 10;
@@ -36,16 +36,11 @@ void input(Rect &player) {
                     case SDLK_ESCAPE:
                         running = false;
                         break;
-                    case SDLK_UP:
-                        if (player.getY() > 0) {
-                            player.setY(player.getY() - playerSpeedY);
-                        }
-                        break;
-                    case SDLK_DOWN:
-                        if (player.getY() < HEIGHT - paddleHeight) {
-                            player.setY(player.getY() + playerSpeedY);
-                        }
-                        break;
+                }
+                break;
+            case SDL_MOUSEMOTION:
+                if (player.getY() > 0 || player.getY() < HEIGHT - paddleHeight) {
+                    player.setY(event.motion.y - paddleHeight/2);
                 }
                 break;
         }
@@ -84,11 +79,11 @@ void ballMove(Rect &ball, Rect &paddle) {
 
 void AI(Rect &paddle, Rect ball) {
     if (paddle.getY() + paddleHeight/2 < ball.getY() + 5) {
-        paddle.setY(paddle.getY() + playerSpeedY/2);
+        paddle.setY(paddle.getY() + paddleSpeedY);
     }
 
     if (paddle.getY() + paddleHeight/2 > ball.getY() + 5) {
-        paddle.setY(paddle.getY() - playerSpeedY/2);
+        paddle.setY(paddle.getY() - paddleSpeedY);
     }
 }
 
@@ -115,15 +110,13 @@ int main(int argc, char *argv[]) {
     Rect ball(WIDTH/2, HEIGHT/2, 10, 10);
 
     while (running) {
-        SDL_Delay(5);
+        SDL_Delay(1);
         input(l_paddle);
         ballMove(ball, l_paddle);
         ballMove(ball, r_paddle);
         AI(r_paddle, ball);
         render({l_paddle, r_paddle, ball}, renderer);
     }
-
-    SDL_Delay(3000);
 
     cleanup(window, renderer);
 
